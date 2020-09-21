@@ -23,6 +23,14 @@ def get_tenant_domain_model():
     return get_model(settings.TENANT_DOMAIN_MODEL)
 
 
+def get_tenant_model_override():
+    override = getattr(settings, 'TENANT_MODEL_OVERRIDE', {})
+    return (
+        frozenset(name.lower() for name in override.get('public', ())),
+        frozenset(name.lower() for name in override.get('tenant', ())),
+    )
+
+
 def get_tenant_database_alias():
     return getattr(settings, 'TENANT_DB_ALIAS', DEFAULT_DB_ALIAS)
 
